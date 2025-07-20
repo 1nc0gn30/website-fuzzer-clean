@@ -15,10 +15,24 @@ def inject_payload(url, payload):
 def main():
     parser = argparse.ArgumentParser(description="Visualize payload injection into URLs.")
     parser.add_argument("--url", required=True, help="URL to inject (e.g., http://site.com/page?q=)")
-    parser.add_argument("--payload", required=True, help="Payload to inject (e.g., <script>alert(1)</script>)")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--payload", help="Single payload to inject (e.g., <script>alert(1)</script>)")
+    group.add_argument("--wordlist", help="Path to file containing payloads (one per line)")
+
     args = parser.parse_args()
-    inject_payload(args.url, args.payload)
+
+    if args.payload:
+        inject_payload(args.url, args.payload)
+    elif args.wordlist:
+        try:
+            with open(args.wordlist, "r") as file:
+                for line in file:
+                    payload = line.strip()
+                    if payload:
+                        print(f"[Payload] {payload}")
+                        inject_payload(args.url, payload)
+        except FileNotFoundError:
+            print(f"[!] Wordlist file not found: {args.wordlist}")
 
 if __name__ == "__main__":
     main()
-
